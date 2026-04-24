@@ -177,6 +177,19 @@
     .sl-dot { width: 36px; height: 3px; background: rgba(255,255,255,0.25); cursor: pointer; transition: background 0.3s; }
     .sl-dot.active { background: var(--red); }
 
+    /* Mobile controls bar (arrows + dots together) — hidden on desktop */
+    .sl-mob-controls {
+      display: none; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      align-items: center; gap: 14px; z-index: 10;
+    }
+    .sl-mob-arrow {
+      background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 22px; width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s; line-height: 1;
+    }
+    .sl-mob-arrow:hover { background: var(--red); border-color: var(--red); }
+
     /* — ABOUT SPLIT — */
     .home-split {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -458,7 +471,10 @@
       .nav-ig { display: none; }
       .mob-ig { display: flex; align-items: center; }
       .mob-right { display: flex; }
-      .slider { height: 58vh; min-height: 340px; }
+      .slider { height: 65vh; min-height: 340px; }
+      .sl-arrow { display: none; }
+      .sl-mob-controls { display: flex; }
+      .sl-dots { display: none; }
       .home-split, .why-section, .about-hero, .about-story, .contact-grid { grid-template-columns: 1fr; }
       .home-split-img, .why-img, .about-hero-img, .about-story-img { min-height: 280px; }
       .home-split-text, .why-text, .about-hero-text, .about-story-text { padding: 48px 28px; border-left: none; border-top: var(--border); }
@@ -545,6 +561,13 @@
   <!-- SLIDER -->
   <div class="slider">
     <div class="slide active">
+      <img src="IMG_6581.jpg" alt="Corvette Z06" style="object-position:center 38%;" />
+      <div class="slide-content">
+        <h1>Paint Correction<br/>&amp; <span>Ceramic</span> Coating</h1>
+        <p>Exotic &amp; Luxury Vehicle Specialists</p>
+      </div>
+    </div>
+    <div class="slide">
       <img src="IMG_6608.jpg" alt="Shelby Cobra" style="object-position:center 42%;" />
       <div class="slide-content">
         <h1>Precision Auto<br/>Detailing in <span>Carrollton</span></h1>
@@ -556,13 +579,6 @@
       <div class="slide-content">
         <h1>Keep Your Vehicle<br/><span>Protected</span> &amp; Pristine</h1>
         <p>Ceramic &amp; Paint Correction Specialists</p>
-      </div>
-    </div>
-    <div class="slide">
-      <img src="IMG_6581.jpg" alt="Corvette Z06" style="object-position:center 38%;" />
-      <div class="slide-content">
-        <h1>Paint Correction<br/>&amp; <span>Ceramic</span> Coating</h1>
-        <p>Exotic &amp; Luxury Vehicle Specialists</p>
       </div>
     </div>
     <div class="slide">
@@ -579,6 +595,11 @@
       <div class="sl-dot" onclick="goSlide(1)"></div>
       <div class="sl-dot" onclick="goSlide(2)"></div>
       <div class="sl-dot" onclick="goSlide(3)"></div>
+    </div>
+    <div class="sl-mob-controls">
+      <button class="sl-mob-arrow" onclick="moveSlide(-1)">&#8249;</button>
+      <div class="sl-mob-dots-ref"></div>
+      <button class="sl-mob-arrow" onclick="moveSlide(1)">&#8250;</button>
     </div>
     <div class="hero-mobile-badge">
       <div class="badge-line1">Call Us Today</div>
