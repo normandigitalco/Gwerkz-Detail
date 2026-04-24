@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G-Werkz Auto Detailing | Carrollton, TX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@300;400;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" id="gwFavicon" type="image/png" href="" />
+  <link rel="apple-touch-icon" id="gwAppleIcon" href="" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #c8181e;
+      --red2:   #e02020;
+      --dark:   #0d0d0d;
+      --dark2:  #141414;
+      --dark3:  #1c1c1c;
+      --dark4:  #222222;
+      --border: 1px solid rgba(255,255,255,0.07);
+      --nav-h:  108px;
+      --raj:    'Rajdhani', sans-serif;
+      --cond:   'Barlow Condensed', sans-serif;
+      --body:   'Barlow', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--dark); color: #e8e6e3; font-family: var(--body); font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+    ::selection { background: var(--red); color: #fff; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ══════════════════
+       NAV — pure black
+    ══════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px; height: var(--nav-h);
+      background: #000;
+      border-bottom: var(--border);
+    }
+    .nav-logo { cursor: pointer; display: flex; align-items: center; }
+    .nav-logo img { height: 74px; width: auto; object-fit: contain; }
+
+    .nav-center {
+      display: flex; gap: 40px; list-style: none;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
+    .nav-center li a {
+      font-family: var(--cond); font-weight: 600; font-size: 14px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: #ccc; text-decoration: none; cursor: pointer;
+      position: relative; padding-bottom: 4px; transition: color 0.2s;
+    }
+    .nav-center li a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--red); transition: width 0.25s;
+    }
+    .nav-center li a:hover, .nav-center li a.active-lnk { color: #fff; }
+    .nav-center li a:hover::after, .nav-center li a.active-lnk::after { width: 100%; }
+
+    .nav-contact {
+      background: var(--red); color: #fff;
+      font-family: var(--cond); font-weight: 700; font-size: 13px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      text-decoration: none; padding: 13px 28px;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .nav-contact:hover { background: var(--red2); }
+
+    .nav-ig {
+      display: flex; align-items: center; gap: 8px;
+      color: #888; text-decoration: none;
+      font-family: var(--cond); font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      transition: color 0.2s; white-space: nowrap;
+    }
+    .nav-ig:hover { color: #fff; }
+    .nav-ig svg { flex-shrink: 0; }
+
+    .mob-ig {
+      display: none; color: #888; text-decoration: none;
+      transition: color 0.2s; line-height: 0;
+    }
+    .mob-ig:hover { color: #fff; }
+    .mob-right { display: none; align-items: center; gap: 16px; }
+
+    .ham { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .ham span { display: block; width: 26px; height: 2px; background: #ccc; transition: all 0.3s; }
+    .ham.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .ham.open span:nth-child(2) { opacity: 0; }
+    .ham.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    .mob-menu {
+      display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; z-index: 999;
+      background: #000; flex-direction: column;
+      padding: 28px 32px; gap: 22px; border-bottom: var(--border);
+    }
+    .mob-menu.open { display: flex; }
+    .mob-menu a {
+      font-family: var(--cond); font-weight: 600; font-size: 18px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #ccc; text-decoration: none; cursor: pointer; transition: color 0.2s;
+    }
+    .mob-menu a:hover { color: var(--red); }
+
+    /* ══════════════════
+       SHARED HELPERS
+    ══════════════════ */
+    .section-tag {
+      font-family: var(--cond); font-size: 12px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--red);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+    }
+    .section-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--red); }
+
+    .page-hero {
+      position: relative; height: 360px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; background: #000;
+    }
+    .page-hero img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center 50%; filter: brightness(0.3);
+    }
+    .page-hero h1 {
+      position: relative; z-index: 2;
+      font-family: var(--raj); font-weight: 700;
+      font-size: clamp(36px, 6vw, 72px); letter-spacing: 6px;
+      text-transform: uppercase; color: #fff; text-align: center;
+    }
+    .page-hero h1 span { color: var(--red); }
+
+    /* Social icon strip — used in multiple spots */
+    .social-icons { display: flex; gap: 14px; align-items: center; }
+    .si {
+      display: flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #bbb; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    .si:hover { background: var(--red); border-color: var(--red); color: #fff; }
+    .si svg { width: 20px; height: 20px; fill: currentColor; }
+
+    /* ══════════════════════════════
+       HOME PAGE
+    ══════════════════════════════ */
+    #home { padding-top: var(--nav-h); }
+
+    /* — SLIDER — */
+    .slider {
+      position: relative; width: 100%; height: calc(100vh - var(--nav-h));
+      overflow: hidden; background: #000; min-height: 480px;
+    }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; display: flex; align-items: center; justify-content: center; }
+    .slide.active { opacity: 1; }
+    .slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.38); }
+    .slide-content { position: relative; z-index: 2; text-align: center; padding: 0 40px; }
+    .slide-content h1 { font-family: var(--raj); font-weight: 700; font-size: clamp(38px, 7vw, 96px); line-height: 1.0; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-shadow: 0 2px 40px rgba(0,0,0,0.8); margin-bottom: 18px; }
+    .slide-content h1 span { color: var(--red); }
+    .slide-content p { font-family: var(--cond); font-weight: 600; font-size: clamp(13px, 1.8vw, 18px); letter-spacing: 5px; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+    .sl-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 24px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+    .sl-arrow:hover { background: var(--red); border-color: var(--red); }
+    .sl-prev { left: 24px; } .sl-next { right: 24px; }
+    .sl-dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+    .sl-dot { width: 36px; height: 3px; background: rgba(255,255,255,0.25); cursor: pointer; transition: background 0.3s; }
+    .sl-dot.active { background: var(--red); }
+
+    /* — ABOUT SPLIT — */
+    .home-split {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-bottom: var(--border);
+    }
+    .home-split-img { position: relative; overflow: hidden; min-height: 480px; }
+    .home-split-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.55) saturate(0.7); transition: transform 8s ease; }
+    .home-split-img:hover img { transform: scale(1.04); }
+    .home-split-text { background: var(--dark2); padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; border-left: var(--border); }
+    .home-split-text h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(28px, 3.5vw, 48px); text-transform: uppercase; letter-spacing: 2px; color: #fff; line-height: 1.1; margin-bottom: 24px; }
+    .home-split-text h2 span { color: var(--red); }
+    .home-split-text p { font-size: 15px; color: #999; line-height: 1.9; margin-bottom: 14px; }
+    .btn-red { display: inline-block; margin-top: 20px; background: var(--red); color: #fff; font-family: var(--cond); font-weight: 700; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; padding: 14px 32px; cursor: pointer; border: none; transition: background 0.2s; }
+    .btn-red:hover { background: var(--red2); }
+    .btn-outline-red { display: inline-block; margin-top: 20px; background: transparent; color: var(--red); font-family: var(--cond); font-weight: 700; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; padding: 13px 32px; cursor: pointer; border: 1px solid var(--red); transition: background 0.2s, color 0.2s; }
+    .btn-outline-red:hover { background: var(--red); color: #fff; }
+
+    /* — STATS BAR — */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: #000; border-top: var(--border); border-bottom: var(--border);
+    }
+    .stat-item { padding: 40px 32px; text-align: center; border-right: var(--border); transition: background 0.3s; }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: var(--dark3); }
+    .stat-num { font-family: var(--raj); font-size: 48px; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-family: var(--cond); font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #555; }
+
+    /* — SERVICE PREVIEW STRIP — */
+    .svc-preview {
+      background: var(--dark2); border-bottom: var(--border);
+    }
+    .svc-preview-head {
+      padding: 60px 60px 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    }
+    .svc-preview-head h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(28px, 4vw, 48px); text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+    .svc-preview-head h2 span { color: var(--red); }
+    .svc-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; padding: 40px 60px 60px;
+      gap: 20px;
+    }
+    .svc-tile {
+      position: relative; overflow: hidden; height: 280px; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.3s;
+    }
+    .svc-tile:hover { border-color: rgba(200,24,30,0.4); }
+    .svc-tile img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.45) saturate(0.7); transition: transform 5s ease, filter 0.4s; }
+    .svc-tile:hover img { transform: scale(1.05); filter: brightness(0.55) saturate(0.9); }
+    .svc-tile-content { position: absolute; inset: 0; padding: 28px; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); }
+    .svc-tile-name { font-family: var(--raj); font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 6px; }
+    .svc-tile-sub { font-family: var(--cond); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .svc-tile-arrow { position: absolute; top: 20px; right: 20px; width: 36px; height: 36px; background: var(--red); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px; opacity: 0; transform: translateY(-6px); transition: opacity 0.3s, transform 0.3s; }
+    .svc-tile:hover .svc-tile-arrow { opacity: 1; transform: translateY(0); }
+
+    /* — WHY CHOOSE US — */
+    .why-section {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: var(--border); border-bottom: var(--border);
+    }
+    .why-img { position: relative; overflow: hidden; min-height: 500px; }
+    .why-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: brightness(0.5) saturate(0.7); }
+    .why-text { background: var(--dark3); padding: 80px 64px; border-left: var(--border); }
+    .why-text h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(26px, 3.5vw, 44px); text-transform: uppercase; letter-spacing: 2px; color: #fff; line-height: 1.1; margin-bottom: 36px; }
+    .why-text h2 span { color: var(--red); }
+    .why-item { display: flex; gap: 18px; margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .why-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .why-icon { width: 48px; height: 48px; background: rgba(200,24,30,0.1); border: 1px solid rgba(200,24,30,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--red); }
+    .why-icon svg { width: 22px; height: 22px; }
+    .why-item-title { font-family: var(--raj); font-size: 17px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 4px; }
+    .why-item-desc { font-size: 14px; color: #777; line-height: 1.7; }
+
+    /* — SOCIAL SECTION — */
+    .social-section {
+      background: #000; padding: 64px 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      border-bottom: var(--border); flex-wrap: wrap;
+    }
+    .social-section-text h3 { font-family: var(--raj); font-size: clamp(24px, 3vw, 40px); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-bottom: 8px; }
+    .social-section-text h3 span { color: var(--red); }
+    .social-section-text p { font-family: var(--cond); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+    .social-big { display: flex; gap: 16px; flex-wrap: wrap; }
+    .si-big {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 24px; border: 1px solid rgba(255,255,255,0.1);
+      text-decoration: none; color: #aaa;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .si-big:hover { border-color: var(--red); color: #fff; background: rgba(200,24,30,0.08); }
+    .si-big svg { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
+    .si-big span { font-family: var(--cond); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+    /* — CTA BAND — */
+    .cta-band {
+      background: var(--red); padding: 72px 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .cta-band::before { content: 'G-WERKZ'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-family: var(--raj); font-size: 180px; font-weight: 700; color: rgba(255,255,255,0.05); pointer-events: none; white-space: nowrap; }
+    .cta-band h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(26px, 4vw, 52px); line-height: 1.05; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+    .cta-band p { font-family: var(--cond); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-top: 8px; }
+    .btn-white { background: #fff; color: var(--red); font-family: var(--cond); font-weight: 700; font-size: 13px; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; padding: 16px 36px; transition: background 0.2s; white-space: nowrap; }
+    .btn-white:hover { background: #eee; }
+
+    /* ══════════════════════════════
+       ABOUT PAGE
+    ══════════════════════════════ */
+    #about { padding-top: var(--nav-h); }
+
+    .about-hero {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 520px;
+      border-bottom: var(--border);
+    }
+    .about-hero-img { position: relative; overflow: hidden; }
+    .about-hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; filter: brightness(0.55) saturate(0.75); }
+    .about-hero-text { background: var(--dark2); padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; border-left: var(--border); }
+    .about-hero-text h1 { font-family: var(--raj); font-weight: 700; font-size: clamp(32px, 5vw, 64px); text-transform: uppercase; letter-spacing: 3px; color: #fff; line-height: 0.95; margin-bottom: 28px; }
+    .about-hero-text h1 span { color: var(--red); display: block; }
+    .about-hero-text p { font-size: 15px; color: #999; line-height: 1.9; margin-bottom: 14px; }
+
+    .about-values { display: grid; grid-template-columns: repeat(4, 1fr); border-top: var(--border); border-bottom: var(--border); }
+    .av-item { padding: 48px 36px; border-right: var(--border); text-align: center; }
+    .av-item:last-child { border-right: none; }
+    .av-icon { width: 56px; height: 56px; background: rgba(200,24,30,0.1); border: 1px solid rgba(200,24,30,0.25); display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; color: var(--red); }
+    .av-icon svg { width: 26px; height: 26px; }
+    .av-title { font-family: var(--raj); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 8px; }
+    .av-desc { font-size: 13px; color: #666; line-height: 1.7; }
+
+    .about-story { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+    .about-story-text { padding: 80px 64px; background: var(--dark3); border-right: var(--border); }
+    .about-story-text h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(26px, 3.5vw, 44px); text-transform: uppercase; letter-spacing: 2px; color: #fff; margin-bottom: 24px; }
+    .about-story-text h2 span { color: var(--red); }
+    .about-story-text p { font-size: 15px; color: #999; line-height: 1.9; margin-bottom: 14px; }
+    .about-story-img { position: relative; overflow: hidden; min-height: 440px; }
+    .about-story-img img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.55) saturate(0.7); }
+
+    .about-social-row { padding: 56px 64px; background: #000; border-bottom: var(--border); display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+    .about-social-row h3 { font-family: var(--raj); font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #fff; white-space: nowrap; }
+    .about-social-row h3 span { color: var(--red); }
+
+    /* ══════════════════════════════
+       SERVICES PAGE
+    ══════════════════════════════ */
+    #services { padding-top: var(--nav-h); }
+
+    .services-list { padding: 64px 48px; display: flex; flex-direction: column; gap: 40px; background: var(--dark); }
+
+    .svc-card { display: grid; grid-template-columns: 420px 1fr; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); background: var(--dark2); box-shadow: 0 4px 40px rgba(0,0,0,0.5); transition: box-shadow 0.3s; }
+    .svc-card:hover { box-shadow: 0 6px 56px rgba(0,0,0,0.7), 0 0 0 1px rgba(200,24,30,0.2); }
+    .svc-photo { position: relative; overflow: hidden; min-height: 320px; }
+    .svc-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.6) saturate(0.75); transition: transform 6s ease, filter 0.4s; display: block; }
+    .svc-card:hover .svc-photo img { transform: scale(1.04); filter: brightness(0.7) saturate(0.9); }
+    .svc-photo-name { position: absolute; bottom: 0; left: 0; right: 0; padding: 48px 28px 24px; background: linear-gradient(to top, rgba(0,0,0,0.88), transparent); font-family: var(--raj); font-size: 26px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #fff; }
+    .svc-info { padding: 36px 40px; display: flex; flex-direction: column; gap: 20px; }
+    .svc-info-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #fff; padding-bottom: 14px; border-bottom: 2px solid var(--red); }
+    .inc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; flex: 1; }
+    .inc-item { font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; color: #bbb; display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .inc-item::before { content: ''; display: block; width: 14px; height: 2px; background: var(--red); flex-shrink: 0; }
+    .svc-pricing { background: #000; border: 1px solid rgba(200,24,30,0.25); border-top: 4px solid var(--red); border-radius: 8px; padding: 22px 26px; }
+    .svc-pricing-label { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .svc-pricing-label::before { content: ''; display: block; width: 18px; height: 2px; background: var(--red); }
+    .svc-pricing-row { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: 0.5px; color: #999; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; }
+    .svc-pricing-row:last-child { border-bottom: none; }
+    .svc-pricing-row span { color: #fff; font-weight: 700; font-size: 17px; }
+    .svc-pricing-note { font-family: 'Oswald', sans-serif; font-size: 14px; color: #666; margin-top: 8px; line-height: 1.6; letter-spacing: 0.5px; }
+    .addons-note { text-align: center; padding: 20px 48px 48px; font-family: var(--cond); font-size: 13px; letter-spacing: 1px; color: #555; background: var(--dark); }
+    .addons-note strong { color: var(--red); }
+
+    /* ── MOBILE BADGE on hero ── */
+    .hero-mobile-badge {
+      position: absolute; bottom: 56px; right: 56px; z-index: 10;
+      background: var(--red); padding: 14px 24px; text-align: center;
+    }
+    .hero-mobile-badge .badge-line1 { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+    .hero-mobile-badge .badge-line2 { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; color: #fff; }
+
+    /* ══════════════════════════════
+       GALLERY PAGE
+    ══════════════════════════════ */
+    #gallery { padding-top: var(--nav-h); }
+
+    .gal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+    .gal-item { position: relative; overflow: hidden; height: 260px; cursor: pointer; background: var(--dark3); }
+    .gal-item.tall { grid-row: span 2; height: auto; }
+    .gal-item.wide { grid-column: span 2; }
+    .gal-item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0.7) brightness(0.85); transition: transform 0.6s, filter 0.4s; display: block; }
+    .gal-item:hover img { transform: scale(1.07); filter: saturate(1) brightness(0.95); }
+    .gal-overlay { position: absolute; inset: 0; background: rgba(200,24,30,0); transition: background 0.35s; display: flex; align-items: center; justify-content: center; }
+    .gal-item:hover .gal-overlay { background: rgba(200,24,30,0.22); }
+    .gal-overlay svg { opacity: 0; transform: scale(0.7); transition: opacity 0.3s, transform 0.3s; color: #fff; fill: none; stroke: currentColor; stroke-width: 1.5; }
+    .gal-item:hover .gal-overlay svg { opacity: 1; transform: scale(1); }
+
+    .lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lb-img { max-width: 90vw; max-height: 88vh; object-fit: contain; }
+    .lb-close { position: absolute; top: 20px; right: 28px; font-size: 28px; color: #fff; cursor: pointer; background: none; border: none; opacity: 0.6; transition: opacity 0.2s; }
+    .lb-close:hover { opacity: 1; color: var(--red); }
+    .lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(200,24,30,0.8); border: none; color: #fff; font-size: 22px; padding: 16px 18px; cursor: pointer; transition: background 0.2s; }
+    .lb-arrow:hover { background: var(--red); }
+    .lb-arrow.prev { left: 20px; } .lb-arrow.next { right: 20px; }
+
+    /* ══════════════════════════════
+       CONTACT PAGE
+    ══════════════════════════════ */
+    #contact { padding-top: var(--nav-h); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; border-bottom: var(--border); }
+    .contact-info { background: var(--dark2); padding: 80px 60px; border-right: var(--border); }
+    .contact-info h2 { font-family: var(--raj); font-weight: 700; font-size: clamp(26px, 3.5vw, 42px); letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 10px; }
+    .contact-info h2 span { color: var(--red); }
+    .contact-info .sub { font-family: var(--cond); font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 44px; }
+    .c-item { margin-bottom: 32px; }
+    .c-item-label { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+    .c-item-val { font-size: 15px; color: #bbb; line-height: 1.7; }
+    .c-item-val a { color: #bbb; text-decoration: none; transition: color 0.2s; }
+    .c-item-val a:hover { color: #fff; }
+    .hours-table { width: 100%; border-collapse: collapse; margin-top: 4px; }
+    .hours-table tr td { font-family: var(--cond); font-size: 13px; padding: 5px 0; color: #888; }
+    .hours-table tr td:last-child { text-align: right; color: #bbb; }
+
+    .contact-social { margin-top: 36px; }
+    .contact-social p { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+
+    .contact-form-side { background: var(--dark3); padding: 80px 60px; }
+    .contact-form-side h3 { font-family: var(--raj); font-weight: 700; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 36px; }
+    .contact-form-side h3 span { color: var(--red); }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #555; margin-bottom: 8px; }
+    .fg input, .fg select, .fg textarea { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.15); color: #e8e6e3; font-family: var(--body); font-size: 15px; padding: 13px 16px; outline: none; transition: border-color 0.2s; appearance: none; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--red); }
+    .fg textarea { min-height: 120px; resize: vertical; }
+    .fg select option { background: var(--dark3); }
+    .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-sub { width: 100%; background: var(--red); color: #fff; font-family: var(--cond); font-weight: 700; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; border: none; padding: 17px; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+    .form-sub:hover { background: var(--red2); }
+    .form-ok { display: none; margin-top: 16px; padding: 14px; background: rgba(200,24,30,0.1); border: 1px solid rgba(200,24,30,0.3); font-family: var(--cond); font-size: 13px; letter-spacing: 1px; color: var(--red); text-align: center; text-transform: uppercase; }
+
+    .map-section iframe { width: 100%; height: 380px; display: block; border: none; filter: invert(90%) hue-rotate(180deg) saturate(0.25) brightness(0.9); }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer { background: #000; border-top: var(--border); }
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.4fr; border-bottom: var(--border); }
+    .footer-col { padding: 52px 44px; border-right: var(--border); }
+    .footer-col:last-child { border-right: none; }
+    .footer-col h4 { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 20px; }
+    .footer-logo img { height: 60px; margin-bottom: 16px; display: block; }
+    .footer-logo p { font-size: 13px; color: #555; line-height: 1.8; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul a { font-family: var(--cond); font-size: 13px; letter-spacing: 1px; color: #555; text-decoration: none; cursor: pointer; transition: color 0.2s; }
+    .footer-col ul a:hover { color: #e8e6e3; }
+    .footer-col address { font-style: normal; font-size: 13px; color: #555; line-height: 2; }
+    .footer-col address a { color: #555; text-decoration: none; transition: color 0.2s; }
+    .footer-col address a:hover { color: #e8e6e3; }
+    .footer-social-row { display: flex; gap: 10px; margin-top: 20px; }
+    .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding: 20px 44px; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { font-family: var(--cond); font-size: 11px; letter-spacing: 1.5px; color: #333; }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 1100px) {
+      .svc-card { grid-template-columns: 340px 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .footer-col { border-right: none; border-bottom: var(--border); }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+      .svc-strip { grid-template-columns: 1fr 1fr; }
+      .about-values { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 900px) {
+      :root { --nav-h: 80px; }
+      nav { padding: 0 20px; }
+      .nav-center, .nav-contact { display: none; }
+      .ham { display: flex; }
+      .nav-logo img { height: 54px; }
+      .nav-ig { display: none; }
+      .mob-ig { display: flex; align-items: center; }
+      .mob-right { display: flex; }
+      .slider { height: 58vh; min-height: 340px; }
+      .home-split, .why-section, .about-hero, .about-story, .contact-grid { grid-template-columns: 1fr; }
+      .home-split-img, .why-img, .about-hero-img, .about-story-img { min-height: 280px; }
+      .home-split-text, .why-text, .about-hero-text, .about-story-text { padding: 48px 28px; border-left: none; border-top: var(--border); }
+      .svc-card { grid-template-columns: 1fr; }
+      .svc-photo { min-height: 240px; }
+      .services-list { padding: 32px 16px; gap: 24px; }
+      .inc-list { grid-template-columns: 1fr; }
+      .svc-strip { grid-template-columns: 1fr; padding: 24px 24px 40px; }
+      .svc-preview-head { padding: 40px 24px 0; }
+      .social-section { padding: 48px 24px; flex-direction: column; align-items: flex-start; }
+      .cta-band { padding: 52px 28px; }
+      .gal-grid { grid-template-columns: repeat(2,1fr); }
+      .gal-item.wide { grid-column: span 1; }
+      .hero-mobile-badge { display: none; }
+      .contact-info, .contact-form-side { padding: 48px 24px; }
+      .about-values { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-col { padding: 28px 24px; border-right: none; border-bottom: var(--border); }
+      .footer-bottom { padding: 16px 24px; flex-direction: column; align-items: flex-start; }
+      .about-social-row { padding: 40px 28px; }
+      .stats-bar { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 768px) {
+      .fg-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .slide-content h1 { font-size: 32px; letter-spacing: 1px; }
+      .gal-grid { grid-template-columns: 1fr; }
+      .gal-item { height: 220px; }
+      .about-values { grid-template-columns: 1fr; }
+      .svc-info { padding: 24px 18px; }
+      .addons-note { padding: 16px 20px 36px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <div class="nav-logo" onclick="go('home')">
+    <img src="IMG_6489.jpg" alt="G-Werkz Auto Detailing" />
+  </div>
+  <ul class="nav-center">
+    <li><a id="nl-home" class="active-lnk" onclick="go('home')">Home</a></li>
+    <li><a id="nl-about" onclick="go('about')">About</a></li>
+    <li><a id="nl-services" onclick="go('services')">Services</a></li>
+    <li><a id="nl-gallery" onclick="go('gallery')">Gallery</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="nav-ig" title="@gwerkzdetail">
+      <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:currentColor;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+    <a href="#" class="nav-contact" onclick="go('contact');return false;">Contact</a>
+  </div>
+  <div class="mob-right">
+    <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="mob-ig" title="@gwerkzdetail">
+      <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:currentColor;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+    <button class="ham" id="ham" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a onclick="go('home');closeMenu()">Home</a>
+  <a onclick="go('about');closeMenu()">About</a>
+  <a onclick="go('services');closeMenu()">Services</a>
+  <a onclick="go('gallery');closeMenu()">Gallery</a>
+  <a onclick="go('contact');closeMenu()">Contact</a>
+  <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" style="color:#aaa;display:flex;align-items:center;gap:10px;">
+    <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;flex-shrink:0;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    @gwerkzdetail
+  </a>
+  <a href="tel:4692376096" style="color:var(--red)">(469) 237-6096</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HOME
+══════════════════════════════════════════ -->
+<div class="page active" id="home">
+
+  <!-- SLIDER -->
+  <div class="slider">
+    <div class="slide active">
+      <img src="IMG_6608.jpg" alt="Shelby Cobra" style="object-position:center 42%;" />
+      <div class="slide-content">
+        <h1>Precision Auto<br/>Detailing in <span>Carrollton</span></h1>
+        <p>Serving the DFW Area</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="IMG_6596.jpg" alt="Corvette E-Ray" style="object-position:center 40%;" />
+      <div class="slide-content">
+        <h1>Keep Your Vehicle<br/><span>Protected</span> &amp; Pristine</h1>
+        <p>Ceramic &amp; Paint Correction Specialists</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="IMG_6581.jpg" alt="Corvette Z06" style="object-position:center 38%;" />
+      <div class="slide-content">
+        <h1>Paint Correction<br/>&amp; <span>Ceramic</span> Coating</h1>
+        <p>Exotic &amp; Luxury Vehicle Specialists</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="IMG_6566.jpg" alt="Audi RS5" style="object-position:center 45%;" />
+      <div class="slide-content">
+        <h1>Interior &amp; Exterior<br/><span>Detailing</span> Done Right</h1>
+        <p>Professional Grade Products &amp; Results</p>
+      </div>
+    </div>
+    <button class="sl-arrow sl-prev" onclick="moveSlide(-1)">&#8249;</button>
+    <button class="sl-arrow sl-next" onclick="moveSlide(1)">&#8250;</button>
+    <div class="sl-dots" id="slDots">
+      <div class="sl-dot active" onclick="goSlide(0)"></div>
+      <div class="sl-dot" onclick="goSlide(1)"></div>
+      <div class="sl-dot" onclick="goSlide(2)"></div>
+      <div class="sl-dot" onclick="goSlide(3)"></div>
+    </div>
+    <div class="hero-mobile-badge">
+      <div class="badge-line1">Call Us Today</div>
+      <div class="badge-line2">(469) 237-6096</div>
+    </div>
+  </div><!-- /slider -->
+
+  <!-- ABOUT SPLIT -->
+  <div class="home-split">
+    <div class="home-split-img">
+      <img src="IMG_6494.jpg" alt="Ferrari interior detail" style="object-position:center 40%;" />
+    </div>
+    <div class="home-split-text">
+      <div class="section-tag">G-Werkz Auto Detailing</div>
+      <h2>G-Werkz <span>|</span> Carrollton, TX</h2>
+      <p>Auto detailing is the best car care service you can get for your vehicle. We specialize in full exterior and interior detailing, paint correction, and ceramic coatings. We are committed to customer satisfaction and proud to be serving the DFW area.</p>
+      <p>Whether it is a Lamborghini, Cadillac, or your everyday driver — every vehicle gets the same meticulous treatment. No shortcuts. No excuses. Just exceptional results.</p>
+      <button class="btn-red" onclick="go('about')">Learn More &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">Vehicles Detailed</div></div>
+    <div class="stat-item"><div class="stat-num">5&nbsp;&#9733;</div><div class="stat-label">Star Rated</div></div>
+    <div class="stat-item"><div class="stat-num">DFW</div><div class="stat-label">Area Coverage</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Satisfaction</div></div>
+  </div>
+
+  <!-- SERVICE PREVIEW STRIP -->
+  <div class="svc-preview">
+    <div class="svc-preview-head">
+      <div>
+        <div class="section-tag">What We Do</div>
+        <h2>Our <span>Services</span></h2>
+      </div>
+      <button class="btn-outline-red" onclick="go('services')">View All Services &rarr;</button>
+    </div>
+    <div class="svc-strip">
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6515.jpg" alt="Exterior" style="object-position:center 55%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Exterior Detail</div>
+          <div class="svc-tile-sub">Starting at $75</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6493.jpg" alt="Interior" style="object-position:center 50%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Interior Detail</div>
+          <div class="svc-tile-sub">Starting at $130</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6596.jpg" alt="Paint Correction" style="object-position:center 38%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Paint Correction</div>
+          <div class="svc-tile-sub">Custom Quote</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6585.jpg" alt="Ceramic Coating" style="object-position:center 50%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Ceramic Coating</div>
+          <div class="svc-tile-sub">Custom Quote</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6603.jpg" alt="Standard Package" style="object-position:center 40%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Standard Package</div>
+          <div class="svc-tile-sub">Starting at $160</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+      <div class="svc-tile" onclick="go('services')">
+        <img src="IMG_6571.jpg" alt="Premium Package" style="object-position:center 35%;" />
+        <div class="svc-tile-content">
+          <div class="svc-tile-name">Premium Package</div>
+          <div class="svc-tile-sub">Starting at $215</div>
+        </div>
+        <div class="svc-tile-arrow">&#8599;</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY CHOOSE US -->
+  <div class="why-section">
+    <div class="why-img">
+      <img src="IMG_6608.jpg" alt="Shelby Cobra" style="object-position:center 45%;" />
+    </div>
+    <div class="why-text">
+      <div class="section-tag">Why G-Werkz</div>
+      <h2>Why Choose <span>Us</span></h2>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div>
+          <div class="why-item-title">Pro-Grade Products Only</div>
+          <div class="why-item-desc">We use industry-leading compounds, coatings, and cleaning agents — the same products used by top detailing shops across the country.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div>
+          <div class="why-item-title">Meticulous Attention to Detail</div>
+          <div class="why-item-desc">Every panel, every seam, every surface gets the same careful treatment. We do not rush. We do not cut corners.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="why-item-title">Exotic Vehicle Experience</div>
+          <div class="why-item-desc">From Lamborghinis to daily drivers, we have the expertise and equipment to handle any vehicle with confidence.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </div>
+        <div>
+          <div class="why-item-title">Satisfaction Guaranteed</div>
+          <div class="why-item-desc">We are not done until you are happy. Your vehicle, your investment — we treat it like our own.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL SECTION -->
+  <div class="social-section">
+    <div class="social-section-text">
+      <h3>Follow <span>G-Werkz</span></h3>
+      <p>See our latest work on social media</p>
+    </div>
+    <div class="social-big">
+      <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="si-big">
+        <!-- Instagram SVG -->
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a href="https://www.facebook.com/Gwerkzdetail/" target="_blank" class="si-big">
+        <!-- Facebook SVG -->
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a href="https://www.tiktok.com/@gwerkzdetail" target="_blank" class="si-big">
+        <!-- TikTok SVG -->
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        <span>TikTok</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- CTA BAND -->
+  <div class="cta-band">
+    <div>
+      <h2>Ready for a Flawless<br/>Finish?</h2>
+      <p>Call or message us today for a free quote</p>
+    </div>
+    <a href="tel:4692376096" class="btn-white">(469) 237-6096</a>
+  </div>
+
+</div><!-- /home -->
+
+<!-- ══════════════════════════════════════════
+     ABOUT
+══════════════════════════════════════════ -->
+<div class="page" id="about">
+
+  <div class="about-hero">
+    <div class="about-hero-img">
+      <img src="IMG_6566.jpg" alt="Audi RS5" style="object-position:center 45%;" />
+    </div>
+    <div class="about-hero-text">
+      <div class="section-tag">Who We Are</div>
+      <h1>G-Werkz<span>Auto Detailing</span></h1>
+      <p>Born from a genuine passion for cars and a commitment to doing things the right way. Based in Carrollton, TX, we serve the entire DFW metroplex — bringing showroom-quality results to every vehicle that rolls through our doors.</p>
+      <p>No shortcuts. No excuses. Just obsessive attention to detail and a team that cares about your vehicle as much as you do.</p>
+    </div>
+  </div>
+
+  <div class="about-values">
+    <div class="av-item">
+      <div class="av-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="av-title">Protection First</div>
+      <div class="av-desc">Long-lasting ceramic and paint protection that preserves your investment for years.</div>
+    </div>
+    <div class="av-item">
+      <div class="av-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="av-title">Attention to Detail</div>
+      <div class="av-desc">Every inch, every panel, every time — we do not stop until the job is done right.</div>
+    </div>
+    <div class="av-item">
+      <div class="av-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="av-title">Pro-Grade Products</div>
+      <div class="av-desc">Industry-leading compounds, coatings, and cleaning agents used by professionals.</div>
+    </div>
+    <div class="av-item">
+      <div class="av-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+      </div>
+      <div class="av-title">5-Star Results</div>
+      <div class="av-desc">Trusted by DFW car enthusiasts from daily drivers to exotic supercars.</div>
+    </div>
+  </div>
+
+  <div class="about-story">
+    <div class="about-story-text">
+      <div class="section-tag">Our Story</div>
+      <h2>Passion Behind <span>Every Polish</span></h2>
+      <p>G-Werkz started with a simple idea: treat every car like it belongs to someone who loves it. Because it does. We built this business around the belief that quality detailing is not a luxury — it is proper care for a major investment.</p>
+      <p>We have worked on everything from Lamborghini Huracans and Corvette Z06s to Ford Broncos and GMC Sierras. Every vehicle gets the same standard: thorough decontamination, premium products, and a final result that speaks for itself.</p>
+      <p>Located in Carrollton, TX, we serve the entire DFW Metroplex. Whether you come to us or we come to you, the quality never changes.</p>
+    </div>
+    <div class="about-story-img">
+      <img src="IMG_6603.jpg" alt="G-Werkz exterior" style="object-position:center 40%;" />
+    </div>
+  </div>
+
+  <div class="about-social-row">
+    <h3>Follow <span>Our Work</span></h3>
+    <div class="social-big">
+      <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="si-big">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        <span>@gwerkzdetail</span>
+      </a>
+      <a href="https://www.facebook.com/Gwerkzdetail/" target="_blank" class="si-big">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span>G-Werkz Detail</span>
+      </a>
+      <a href="https://www.tiktok.com/@gwerkzdetail" target="_blank" class="si-big">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        <span>@gwerkzdetail</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="cta-band">
+    <div>
+      <h2>Ready to Book<br/>Your Detail?</h2>
+      <p>Call us today for a free quote</p>
+    </div>
+    <a href="tel:4692376096" class="btn-white">(469) 237-6096</a>
+  </div>
+
+</div><!-- /about -->
+
+<!-- ══════════════════════════════════════════
+     SERVICES
+══════════════════════════════════════════ -->
+<div class="page" id="services">
+  <div class="page-hero" style="background:#000;">
+    <img src="IMG_6589.jpg" alt="Toyota GR Supra" style="object-position:center 55%;" />
+    <h1>Our <span>Services</span></h1>
+  </div>
+
+  <div class="services-list">
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6515.jpg" alt="Express Exterior" style="object-position:center 60%;" /><div class="svc-photo-name">Express Exterior</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Wheels &amp; tires cleaned</div><div class="inc-item">Fender wells cleaned</div>
+          <div class="inc-item">Foam bath / hand wash</div><div class="inc-item">Tires shined (water based)</div>
+          <div class="inc-item">Interior door jambs dried</div><div class="inc-item">Gas compartment cleaned</div>
+          <div class="inc-item">Spray sealant applied</div><div class="inc-item">Windows cleaned</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Starts At</div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Sedan / Coupe</span><span>$75</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Mid-Size SUV</span><span>$90</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Full-Size SUV / Truck / Van</span><span>$105</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6494.jpg" alt="Full Interior" style="object-position:center 40%;" /><div class="svc-photo-name">Full Interior</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Full vacuum</div><div class="inc-item">Floor mats cleaned</div>
+          <div class="inc-item">Windows wiped</div><div class="inc-item">Leather seats cleaned</div>
+          <div class="inc-item">Spot cleaning</div><div class="inc-item">All plastic &amp; trim cleaned</div>
+          <div class="inc-item">Pedals cleaned</div><div class="inc-item">Scent applied</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Starts At</div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Sedan / Coupe</span><span>$130</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Mid-Size SUV</span><span>$150</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Full-Size SUV / Truck / Van</span><span>$185</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6603.jpg" alt="Standard Package" style="object-position:center 40%;" /><div class="svc-photo-name">Standard Package</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Foam bath / hand wash</div><div class="inc-item">Wheels &amp; tires cleaned</div>
+          <div class="inc-item">Interior door jambs dried</div><div class="inc-item">Tires shined</div>
+          <div class="inc-item">All plastic &amp; trim cleaned</div><div class="inc-item">Gas compartment cleaned</div>
+          <div class="inc-item">Full vacuum</div><div class="inc-item">Floor mats cleaned</div>
+          <div class="inc-item">Doors &amp; door frames cleaned</div><div class="inc-item">Windows wiped</div>
+          <div class="inc-item">Leather seats cleaned</div><div class="inc-item">Scent applied</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Starts At</div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Sedan / Coupe</span><span>$160</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Mid-Size SUV</span><span>$185</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Full-Size SUV / Truck / Van</span><span>$215</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6571.jpg" alt="Premium Package" style="object-position:center 35%;" /><div class="svc-photo-name">Premium Package</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Wheels &amp; tires cleaned</div><div class="inc-item">Fender wells cleaned</div>
+          <div class="inc-item">Foam bath / hand wash</div><div class="inc-item">Bug remover applied</div>
+          <div class="inc-item">Tires shined (water based)</div><div class="inc-item">Interior door jambs dried</div>
+          <div class="inc-item">Gas compartment cleaned</div><div class="inc-item">Spray sealant applied</div>
+          <div class="inc-item">Full vacuum</div><div class="inc-item">All plastic &amp; trim cleaned</div>
+          <div class="inc-item">Floor mats cleaned</div><div class="inc-item">Doors &amp; door frames cleaned</div>
+          <div class="inc-item">Windows wiped</div><div class="inc-item">Leather seats cleaned</div>
+          <div class="inc-item">Leather seat conditioning</div><div class="inc-item">Pedals cleaned</div>
+          <div class="inc-item">Scent applied</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Starts At</div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Sedan / Coupe</span><span>$215</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Mid-Size SUV</span><span>$250</span></div>
+          <div class="svc-pricing-row"><span style="color:#bbb;font-weight:400;font-size:15px;">Full-Size SUV / Truck / Van</span><span>$285</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6596.jpg" alt="Paint Correction" style="object-position:center 38%;" /><div class="svc-photo-name">Paint Correction</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Single-stage polishing</div><div class="inc-item">Multi-stage available</div>
+          <div class="inc-item">Swirl mark removal</div><div class="inc-item">Scratch reduction</div>
+          <div class="inc-item">Water spot removal</div><div class="inc-item">Oxidation removal</div>
+          <div class="inc-item">Paint depth measured</div><div class="inc-item">Panel-by-panel inspection</div>
+          <div class="inc-item">Pro-grade compounds</div><div class="inc-item">Mirror finish result</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Custom Quote</div>
+          <div class="svc-pricing-note">Pricing varies by vehicle size and condition. Call or message us for an accurate estimate.</div>
+          <div class="svc-pricing-row" style="margin-top:8px"><span>(469) 237-6096</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-photo"><img src="IMG_6579.jpg" alt="Ceramic Coating" style="object-position:center 40%;" /><div class="svc-photo-name">Ceramic Coating</div></div>
+      <div class="svc-info">
+        <div class="svc-info-title">What's Included</div>
+        <div class="inc-list">
+          <div class="inc-item">Professional nano-ceramic</div><div class="inc-item">Hydrophobic protection</div>
+          <div class="inc-item">UV resistance</div><div class="inc-item">Chemical resistance</div>
+          <div class="inc-item">Gloss enhancement</div><div class="inc-item">Multi-year durability</div>
+          <div class="inc-item">Paint prep &amp; decon</div><div class="inc-item">Exotic vehicle friendly</div>
+        </div>
+        <div class="svc-pricing">
+          <div class="svc-pricing-label">Custom Quote</div>
+          <div class="svc-pricing-note">Pricing varies by vehicle size and coating tier. Call or message us for an accurate estimate.</div>
+          <div class="svc-pricing-row" style="margin-top:8px"><span>(469) 237-6096</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="addons-note"><strong>Note:</strong> All pricing listed is a starting point and may vary based on vehicle condition, size, and add-ons. Contact us for a precise quote.</div>
+</div><!-- /services -->
+
+<!-- ══════════════════════════════════════════
+     GALLERY
+══════════════════════════════════════════ -->
+<div class="page" id="gallery">
+  <div class="page-hero" style="background:#000;">
+    <img src="IMG_6566.jpg" alt="Gallery" style="object-position:center 50%;" />
+    <h1>Our <span>Work</span></h1>
+  </div>
+  <div class="gal-grid">
+    <!-- Row 1 -->
+    <div class="gal-item wide" onclick="openLb(0)"><img src="IMG_6515.jpg" alt="Lamborghini Huracán foam" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item tall" onclick="openLb(1)"><img src="IMG_6533.jpg" alt="Porsche 911 Carrera RS" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(2)"><img src="IMG_6549.jpg" alt="Genesis G80" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(3)"><img src="IMG_6557.jpg" alt="Porsche 718 GT4 RS" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Row 2 -->
+    <div class="gal-item" onclick="openLb(4)"><img src="IMG_6558.jpg" alt="Porsche 718 GT4 RS front" style="object-position:center 40%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(5)"><img src="IMG_6559.jpg" alt="Porsche 718 GT4 RS rear" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item wide" onclick="openLb(6)"><img src="IMG_6565.jpg" alt="Porsche 911 red" style="object-position:center 40%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Row 3 -->
+    <div class="gal-item" onclick="openLb(7)"><img src="IMG_6566.jpg" alt="Audi RS5" style="object-position:center 40%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(8)"><img src="IMG_6571.jpg" alt="Cadillac Escalade V" style="object-position:center 40%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(9)"><img src="IMG_6579.jpg" alt="Porsche 911 GT3 RS purple" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(10)"><img src="IMG_6580.jpg" alt="Ford Raptor &amp; Lamborghini Gallardo" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Row 4 -->
+    <div class="gal-item wide" onclick="openLb(11)"><img src="IMG_6583.jpg" alt="Dodge Charger Widebody" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item tall" onclick="openLb(12)"><img src="IMG_6592.jpg" alt="Ford Bronco front" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(13)"><img src="IMG_6593.jpg" alt="Porsche 718 Spyder" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(14)"><img src="IMG_6594.jpg" alt="Lamborghini Urus green" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Row 5 -->
+    <div class="gal-item" onclick="openLb(15)"><img src="IMG_6596.jpg" alt="Corvette E-Ray" style="object-position:center 38%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(16)"><img src="IMG_6598.jpg" alt="Lamborghini Huracan Sterrato" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(17)"><img src="IMG_6601.jpg" alt="Lamborghini Huracan white" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(18)"><img src="IMG_6603.jpg" alt="GMC Sierra Elevation" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Row 6 -->
+    <div class="gal-item wide" onclick="openLb(19)"><img src="IMG_6608.jpg" alt="Shelby Cobra" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(20)"><img src="IMG_6610.jpg" alt="Porsche 718 Spyder blue" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item" onclick="openLb(21)"><img src="IMG_6611.jpg" alt="Lamborghini Huracan green" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <!-- Ferrari interiors -->
+    <div class="gal-item" onclick="openLb(22)"><img src="IMG_6493.jpg" alt="Ferrari interior" style="object-position:center 50%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+    <div class="gal-item wide" onclick="openLb(23)"><img src="IMG_6612.jpg" alt="Porsche 911 vintage blue" style="object-position:center 45%;" /><div class="gal-overlay"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div></div>
+  </div>
+</div><!-- /gallery -->
+
+<!-- ══════════════════════════════════════════
+     CONTACT
+══════════════════════════════════════════ -->
+<div class="page" id="contact">
+  <div class="page-hero" style="background:#000;">
+    <img src="IMG_6603.jpg" alt="G-Werkz Shop" style="object-position:center 45%;" />
+    <h1>Get In <span>Touch</span></h1>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h2>G-Werkz <span>Auto</span> Detailing</h2>
+      <p class="sub">Carrollton, TX &mdash; Serving All of DFW</p>
+      <div class="c-item"><div class="c-item-label">Address</div><div class="c-item-val">3221 Skylane Dr<br/>Carrollton, TX 75006</div></div>
+      <div class="c-item"><div class="c-item-label">Phone</div><div class="c-item-val"><a href="tel:4692376096">(469) 237-6096</a></div></div>
+      <div class="c-item"><div class="c-item-label">Email</div><div class="c-item-val"><a href="mailto:gwerkzdetail@gmail.com">gwerkzdetail@gmail.com</a></div></div>
+      <div class="c-item">
+        <div class="c-item-label">Hours</div>
+        <div class="c-item-val">
+          <table class="hours-table">
+            <tr><td>Monday &mdash; Friday</td><td>9:00am &mdash; 6:00pm</td></tr>
+            <tr><td>Saturday</td><td>9:00am &mdash; 5:00pm</td></tr>
+            <tr><td>Sunday</td><td>By Appointment</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="contact-social">
+        <p>Follow Us</p>
+        <div class="social-big">
+          <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="si-big">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://www.facebook.com/Gwerkzdetail/" target="_blank" class="si-big">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <span>Facebook</span>
+          </a>
+          <a href="https://www.tiktok.com/@gwerkzdetail" target="_blank" class="si-big">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            <span>TikTok</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-side">
+      <h3>Request a <span>Quote</span></h3>
+      <form id="cForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="submitForm(event)">
+        <div class="fg-row">
+          <div class="fg"><label>First Name</label><input type="text" name="first_name" required placeholder="John" /></div>
+          <div class="fg"><label>Last Name</label><input type="text" name="last_name" required placeholder="Doe" /></div>
+        </div>
+        <div class="fg-row">
+          <div class="fg"><label>Phone</label><input type="tel" name="phone" required placeholder="(XXX) XXX-XXXX" /></div>
+          <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="you@email.com" /></div>
+        </div>
+        <div class="fg"><label>Vehicle (Year / Make / Model)</label><input type="text" name="vehicle" placeholder="e.g. 2023 Lamborghini Huracán" /></div>
+        <div class="fg">
+          <label>Service</label>
+          <select name="service">
+            <option value="">Select a service...</option>
+            <option>Express Exterior</option><option>Full Interior</option>
+            <option>Standard Package</option><option>Premium Package</option>
+            <option>Paint Correction</option><option>Ceramic Coating</option>
+            <option>Not Sure / Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message</label><textarea name="message" placeholder="Tell us more about what you need..."></textarea></div>
+        <button type="submit" class="form-sub">Send Request</button>
+        <div class="form-ok" id="fOk">Message sent. We will reach out within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3349.0!2d-96.9032!3d32.9521!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c27b0e2def14d%3A0x5c44ce19e2f94c75!2s3221%20Skylane%20Dr%2C%20Carrollton%2C%20TX%2075006!5e0!3m2!1sen!2sus!4v1" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="G-Werkz Location"></iframe>
+  </div>
+</div><!-- /contact -->
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLb()">&#10005;</button>
+  <button class="lb-arrow prev" onclick="moveLb(-1)">&#8249;</button>
+  <img class="lb-img" id="lbImg" src="" alt="" />
+  <button class="lb-arrow next" onclick="moveLb(1)">&#8250;</button>
+</div>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-col footer-logo">
+      <img src="IMG_6489.jpg" alt="G-Werkz Logo" />
+      <p>Premium auto detailing in Carrollton, TX. Serving the entire DFW Metroplex with professional-grade care for every vehicle.</p>
+      <div class="footer-social-row">
+        <a href="https://www.instagram.com/gwerkzdetail/" target="_blank" class="si-big" style="padding:10px 14px;">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/Gwerkzdetail/" target="_blank" class="si-big" style="padding:10px 14px;">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@gwerkzdetail" target="_blank" class="si-big" style="padding:10px 14px;">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a onclick="go('services')">Express Exterior</a></li>
+        <li><a onclick="go('services')">Full Interior</a></li>
+        <li><a onclick="go('services')">Standard Package</a></li>
+        <li><a onclick="go('services')">Premium Package</a></li>
+        <li><a onclick="go('services')">Paint Correction</a></li>
+        <li><a onclick="go('services')">Ceramic Coating</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a onclick="go('home')">Home</a></li>
+        <li><a onclick="go('about')">About</a></li>
+        <li><a onclick="go('services')">Services</a></li>
+        <li><a onclick="go('gallery')">Gallery</a></li>
+        <li><a onclick="go('contact')">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Info</h4>
+      <address>
+        3221 Skylane Dr<br/>Carrollton, TX 75006<br/><br/>
+        <a href="tel:4692376096">(469) 237-6096</a><br/>
+        <a href="mailto:gwerkzdetail@gmail.com">gwerkzdetail@gmail.com</a>
+      </address>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 G-Werkz Auto Detailing &mdash; Carrollton, TX</p>
+    <p>3221 Skylane Dr, Carrollton, TX 75006</p>
+  </div>
+</footer>
+
+<script>
+  const pages = ['home','about','services','gallery','contact'];
+  function go(id) {
+    pages.forEach(p => {
+      document.getElementById(p).classList.remove('active');
+      const l = document.getElementById('nl-' + p);
+      if (l) l.classList.remove('active-lnk');
+    });
+    document.getElementById(id).classList.add('active');
+    const l = document.getElementById('nl-' + id);
+    if (l) l.classList.add('active-lnk');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function toggleMenu() { document.getElementById('ham').classList.toggle('open'); document.getElementById('mobMenu').classList.toggle('open'); }
+  function closeMenu() { document.getElementById('ham').classList.remove('open'); document.getElementById('mobMenu').classList.remove('open'); }
+
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.sl-dot');
+  function goSlide(n) { slides[cur].classList.remove('active'); dots[cur].classList.remove('active'); cur = (n + slides.length) % slides.length; slides[cur].classList.add('active'); dots[cur].classList.add('active'); }
+  function moveSlide(d) { goSlide(cur + d); }
+  setInterval(() => moveSlide(1), 5500);
+
+  const lbImgs = [
+    'IMG_6515.jpg','IMG_6533.jpg','IMG_6549.jpg','IMG_6557.jpg',
+    'IMG_6558.jpg','IMG_6559.jpg','IMG_6565.jpg','IMG_6566.jpg',
+    'IMG_6571.jpg','IMG_6579.jpg','IMG_6580.jpg','IMG_6583.jpg',
+    'IMG_6592.jpg','IMG_6593.jpg','IMG_6594.jpg','IMG_6596.jpg',
+    'IMG_6598.jpg','IMG_6601.jpg','IMG_6603.jpg','IMG_6608.jpg',
+    'IMG_6610.jpg','IMG_6611.jpg','IMG_6493.jpg','IMG_6612.jpg'
+  ];
+  let lbCur = 0;
+  function openLb(i) { lbCur = i; document.getElementById('lbImg').src = lbImgs[i]; document.getElementById('lightbox').classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLb() { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+  function moveLb(d) { lbCur = (lbCur + d + lbImgs.length) % lbImgs.length; document.getElementById('lbImg').src = lbImgs[lbCur]; }
+  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLb(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowLeft') moveLb(-1); if (e.key === 'ArrowRight') moveLb(1); });
+
+  /* ── FAVICON: draw logo into canvas with circular crop ── */
+  (function() {
+    const img = new Image();
+    img.src = 'IMG_6489.jpg';
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.beginPath();
+      ctx.arc(32, 32, 32, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, 0, 0, 64, 64);
+      const url = canvas.toDataURL('image/png');
+      document.getElementById('gwFavicon').href = url;
+      document.getElementById('gwAppleIcon').href = url;
+    };
+  })();
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const form = e.target, btn = form.querySelector('.form-sub');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (res.ok) { form.reset(); document.getElementById('fOk').style.display = 'block'; btn.textContent = 'Sent'; }
+      else { btn.textContent = 'Error - Try Again'; btn.disabled = false; }
+    } catch { btn.textContent = 'Error - Try Again'; btn.disabled = false; }
+  }
+</script>
+</body>
+</html>
